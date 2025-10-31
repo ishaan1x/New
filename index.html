@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A2Z Tg Hub Files</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* === NEW MODERN COLOR PALETTE === */
+        :root {
+            /* Cosmic Night Theme (Dark Mode) */
+            --bg-color: #0d1117; /* Very dark blue, almost black */
+            --card-bg: #161b22; /* Darker blue-gray */
+            --header-bg: #161b22;
+            --text-color: #c9d1d9; /* Soft white/light gray */
+            --accent-color: #8A4FFF; /* Vibrant Purple */
+            --accent-color-hover: #7B2BF9;
+            --secondary-color: #30D5C8; /* Bright Turquoise/Teal */
+            --border-color: #30363d;
+            --filter-bg: #21262d;
+            --shadow-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .light-mode {
+            /* Clean & Crisp Theme (Light Mode) */
+            --bg-color: #f6f8fa; /* Very light gray */
+            --card-bg: #ffffff; /* Pure white */
+            --header-bg: #ffffff;
+            --text-color: #24292f; /* Dark charcoal */
+            --accent-color: #7B2BF9; /* Stronger Purple for contrast */
+            --accent-color-hover: #5a1eae;
+            --secondary-color: #00A98F; /* Darker Teal for readability */
+            --border-color: #d0d7de;
+            --filter-bg: #eeeeee;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--header-bg);
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color); /* Thinner border */
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px var(--shadow-color);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--accent-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Theme Toggle */
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 20px;
+            cursor: pointer;
+            margin-left: 15px;
+            transition: transform 0.3s, color 0.3s;
+        }
+        
+        .theme-toggle:hover {
+            transform: rotate(30deg);
+            color: var(--accent-color);
+        }
+        
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        nav ul li a:hover, .mobile-nav ul li a:hover {
+            background-color: var(--filter-bg);
+            color: var(--secondary-color);
+        }
+        
+        /* Main Content Styles */
+        .page-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .post-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            border: 1px solid var(--border-color);
+            border-left: 4px solid transparent; /* For hover effect */
+        }
+        
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px var(--shadow-color);
+            border-left-color: var(--accent-color); /* Cool hover effect */
+        }
+        
+        /* === THUMBNAIL SIZE CHANGE - YOUTUBE STYLE === */
+        .post-thumbnail {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio (9 / 16 = 0.5625) */
+            height: 0;
+            overflow: hidden;
+            background-color: var(--filter-bg); /* Placeholder color while image loads */
+        }
+        
+        .post-thumbnail img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Prevents image stretching */
+            transition: transform 0.5s;
+        }
+        
+        .post-card:hover .post-thumbnail img {
+            transform: scale(1.05);
+        }
+        
+        .quality-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 2; /* Ensure it's above the image */
+        }
+        
+        .post-content {
+            padding: 15px;
+        }
+        
+        .post-title {
+            color: var(--secondary-color);
+            font-size: 16px;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            height: 45px;
+            overflow: hidden;
+            font-weight: 600;
+        }
+        
+        .download-btn {
+            display: block;
+            background: linear-gradient(45deg, var(--accent-color), var(--accent-color-hover));
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+            font-size: 14px;
+            border: none;
+        }
+        
+        .download-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Search & Filter Buttons */
+        .search-box input, .filter-btn, .pagination button {
+            transition: all 0.3s ease;
+        }
+        
+        .search-box button {
+            padding: 0 20px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .search-box button:hover {
+            background: var(--accent-color-hover);
+        }
+
+        .filter-btn.active, .pagination button.active {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .filter-btn:hover:not(.active), .pagination button:hover:not(.active) {
+            background-color: var(--border-color);
+            border-color: var(--secondary-color);
+        }
+        
+        /* Footer Styles */
+        footer {
+            background-color: var(--header-bg);
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 40px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* === NEW: Telegram Join Box Styles === */
+        .telegram-join-box {
+            background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
+            color: #ffffff;
+            padding: 20px 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px var(--shadow-color);
+            text-align: center;
+            margin-bottom: 30px; /* Space it out from the content below */
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .telegram-join-box h3 {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .telegram-join-box p {
+            font-size: 16px;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .telegram-btn {
+            display: block; /* Full width button */
+            background-color: var(--card-bg); /* Adapts to light/dark mode */
+            color: var(--accent-color); /* Uses theme's accent color */
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            transition: transform 0.2s ease, background-color 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .telegram-btn i {
+            margin-right: 10px;
+        }
+
+        .telegram-btn:hover {
+            transform: scale(1.02);
+            background-color: var(--bg-color);
+            color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* End of New Telegram Box Styles */
+
+        /* === Unchanged CSS from here to keep functionality === */
+
+        nav ul { display: flex; justify-content: center; list-style: none; flex-wrap: wrap; }
+        nav ul li { margin: 0 8px; position: relative; }
+        nav ul li a { color: var(--text-color); text-decoration: none; font-size: 14px; padding: 8px 12px; border-radius: 4px; transition: all 0.3s; display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+        .dropdown-menu { position: absolute; top: 100%; left: 0; background-color: var(--filter-bg); min-width: 180px; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; z-index: 1000; }
+        .dropdown-menu ul { display: flex; flex-direction: column; padding: 10px 0; }
+        .dropdown-menu ul li { margin: 0; width: 100%; }
+        .dropdown-menu ul li a { padding: 10px 15px; border-radius: 0; display: block; width: 100%; font-size: 14px; }
+        .dropdown-menu ul li a:hover { background-color: var(--border-color); color: var(--accent-color); }
+        nav ul li:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .mobile-nav { display: none; background-color: var(--header-bg); position: absolute; top: 100%; left: 0; right: 0; z-index: 99; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+        .mobile-nav.active { display: block; }
+        .mobile-nav ul { display: flex; flex-direction: column; padding: 10px 0; }
+        .mobile-nav ul li { margin: 0; width: 100%; }
+        .mobile-nav ul li a { padding: 12px 20px; border-radius: 0; display: block; width: 100%; font-size: 16px; border-bottom: 1px solid var(--border-color); }
+        .mobile-dropdown { background-color: var(--filter-bg); display: none; }
+        .mobile-dropdown.active { display: block; }
+        .mobile-dropdown ul { padding: 0; }
+        .mobile-dropdown ul li a { padding-left: 40px; font-size: 14px; }
+        .ad-container { background: linear-gradient(135deg, var(--filter-bg), var(--header-bg)); border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; margin: 20px auto; text-align: center; position: relative; max-width: 728px; }
+        .ad-close { position: absolute; top: 5px; right: 10px; background: none; border: none; color: #aaa; font-size: 18px; cursor: pointer; }
+        .ad-close:hover { color: var(--accent-color); }
+        .ad-content { display: flex; align-items: center; justify-content: center; gap: 15px; }
+        .ad-text { text-align: left; }
+        .ad-text h3 { color: var(--secondary-color); margin-bottom: 5px; font-size: 16px; }
+        .ad-text p { font-size: 14px; }
+        .ad-button { background-color: var(--accent-color); color: white; padding: 8px 15px; border-radius: 4px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 10px; font-size: 14px; }
+        .ad-button:hover { background-color: var(--accent-color-hover); }
+        .main-content { padding: 20px 0; }
+        .post-details { font-size: 13px; color: var(--text-color); opacity: 0.8; margin-bottom: 12px; height: 36px; overflow: hidden; }
+        .post-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-color); opacity: 0.7; margin-bottom: 12px; }
+        .footer-links { margin-bottom: 15px; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+        .footer-links a { color: var(--text-color); text-decoration: none; font-size: 14px; }
+        .footer-links a:hover { color: var(--accent-color); }
+        .copyright { font-size: 12px; color: var(--text-color); opacity: 0.7; }
+        .search-container { display: flex; justify-content: center; margin-bottom: 25px; }
+        .search-box { display: flex; width: 100%; max-width: 500px; }
+        .search-box input { flex: 1; padding: 12px 15px; border: 1px solid var(--border-color); border-radius: 4px 0 0 4px; background-color: var(--filter-bg); color: var(--text-color); font-size: 16px; }
+        .filter-section { margin-bottom: 20px; }
+        .filter-title { color: var(--secondary-color); margin-bottom: 10px; font-size: 18px; text-align: center; }
+        .filter-buttons { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 15px; }
+        .filter-btn { padding: 8px 15px; background-color: var(--filter-bg); color: var(--text-color); border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer; font-size: 14px; }
+        .pagination { display: flex; justify-content: center; align-items: center; margin-top: 30px; gap: 8px; flex-wrap: wrap; }
+        .pagination button { padding: 8px 15px; background-color: var(--filter-bg); color: var(--text-color); border: 1px solid var(--border-color); border-radius: 4px; cursor: pointer; font-weight: 500; }
+        .pagination button:disabled { opacity: 0.5; cursor: not-allowed; }
+        @media (max-width: 1024px) { .posts-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .header-content { flex-wrap: wrap; } .menu-toggle { display: block; } .desktop-nav { display: none; } .mobile-nav.active { display: block; } .posts-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; } .post-title, .post-details { height: auto; } .ad-content, .ad-text { text-align: center; } .ad-content { flex-direction: column; } .filter-buttons { justify-content: flex-start; overflow-x: auto; padding-bottom: 10px; } .filter-btn { flex-shrink: 0; } }
+        @media (max-width: 480px) { .logo { font-size: 18px; } .page-title { font-size: 20px; } /* Mobile thumbnail height is now automatic */ .posts-grid { grid-template-columns: 1fr; } .footer-links { flex-direction: column; gap: 5px; } .telegram-join-box h3 { font-size: 20px; } .telegram-join-box p { font-size: 14px;} }
+        .no-results { grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-color); opacity: 0.7; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo"> A2Z Tg Hub Files </div>
+                <div style="display: flex; align-items: center;">
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="menu-toggle" id="menuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+                
+                <nav class="desktop-nav">
+                    <ul>
+                        <li><a href="#"><i class="fas fa-home"></i> HOME</a></li>
+                        <li><a href="#"><i class="fas fa-film"></i> MOVIES</a></li>
+                        <li><a href="#"><i class="fas fa-tv"></i> CARTOONS</a></li>
+                        <li><a href="#"><i class="fas fa-dragon"></i> ANIME</a></li>
+                        <li>
+                            <a href="#"><i class="fas fa-list"></i> CATEGORIES <i class="fas fa-caret-down"></i></a>
+                            <div class="dropdown-menu">
+                                <ul>
+                                    <li><a href="#" data-category="all">All</a></li>
+                                    <li><a href="#" data-category="animal">Animal</a></li>
+                                    <li><a href="#" data-category="adventure">Adventure</a></li>
+                                    <li><a href="#" data-category="comedy">Comedy</a></li>
+                                    <li><a href="#" data-category="drama">Drama</a></li>
+                                    <li><a href="#" data-category="fantasy">Fantasy</a></li>
+                                    <li><a href="#" data-category="sci-fi">Sci-Fi</a></li>
+                                    <li><a href="#" data-category="shounen">Shounen</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fas fa-hd"></i> QUALITY <i class="fas fa-caret-down"></i></a>
+                            <div class="dropdown-menu">
+                                <ul>
+                                    <li><a href="#" data-quality="all">All Quality</a></li>
+                                    <li><a href="#" data-quality="480p">480p</a></li>
+                                    <li><a href="#" data-quality="720p">720p</a></li>
+                                    <li><a href="#" data-quality="1080p">1080p</a></li>
+                                    <li><a href="#" data-quality="4k">4K</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a href="#"><i class="fas fa-broadcast-tower"></i> TV SHOWS</a></li>
+                        <li><a href="#"><i class="fas fa-satellite-dish"></i> OTT</a></li>
+                        <li><a href="#"><i class="fas fa-star"></i> EXCLUSIVE</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> CONTACT</a></li>
+                    </ul>
+                </nav>
+            </div>
+            
+            <nav class="mobile-nav" id="mobileNav">
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> HOME</a></li>
+                    <li><a href="#"><i class="fas fa-film"></i> MOVIES</a></li>
+                    <li><a href="#"><i class="fas fa-tv"></i> CARTOON SHOWS</a></li>
+                    <li><a href="#"><i class="fas fa-dragon"></i> ANIME</a></li>
+                    <li>
+                        <a href="#" class="mobile-dropdown-toggle"><i class="fas fa-list"></i> CATEGORIES <i class="fas fa-caret-down"></i></a>
+                        <div class="mobile-dropdown">
+                            <ul>
+                                <li><a href="#" data-category="all">All Anime</a></li>
+                                <li><a href="#" data-category="animal">Animal</a></li>
+                                <li><a href="#" data-category="adventure">Adventure</a></li>
+                                <li><a href="#" data-category="comedy">Comedy</a></li>
+                                <li><a href="#" data-category="drama">Drama</a></li>
+                                <li><a href="#" data-category="fantasy">Fantasy</a></li>
+                                <li><a href="#" data-category="sci-fi">Sci-Fi</a></li>
+                                <li><a href="#" data-category="shounen">Shounen</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a href="#" class="mobile-dropdown-toggle"><i class="fas fa-hd"></i> QUALITY <i class="fas fa-caret-down"></i></a>
+                        <div class="mobile-dropdown">
+                            <ul>
+                                <li><a href="#" data-quality="all">All Quality</a></li>
+                                <li><a href="#" data-quality="480p">480p</a></li>
+                                <li><a href="#" data-quality="720p">720p</a></li>
+                                <li><a href="#" data-quality="1080p">1080p</a></li>
+                                <li><a href="#" data-quality="4k">4K</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li><a href="#"><i class="fas fa-broadcast-tower"></i> TV SHOWS</a></li>
+                    <li><a href="#"><i class="fas fa-list"></i> CHANNELS LIST</a></li>
+                    <li><a href="#"><i class="fas fa-satellite-dish"></i> OTT NETWORKS</a></li>
+                    <li><a href="#"><i class="fas fa-star"></i> FIRST ON NET</a></li>
+                    <li><a href="#"><i class="fas fa-crown"></i> EXCLUSIVE SHOWS</a></li>
+                    <li><a href="#"><i class="fas fa-envelope"></i> CONTACT US</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="ad-container" id="adContainer">
+            <button class="ad-close" id="adClose"><i class="fas fa-times"></i></button>
+            <div class="ad-content">
+                <div class="ad-image">
+                    <img src="https://raw.githubusercontent.com/AnimeAssets/ads/main/premium-streaming.png" alt="Premium Anime Streaming" width="300" height="100">
+                </div>
+                <div class="ad-text">
+                    <h3>Premium Anime Streaming</h3>
+                    <p>Watch your favorite anime without ads in HD quality!</p>
+                    <a href="#" class="ad-button">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        <div class="container">
+            <!-- Join Telegram Box - ADDED HERE -->
+            <div class="telegram-join-box">
+                <h3>Join Our Community</h3>
+                <p>Get instant updates on new files and exclusive content.</p>
+                <a href="#" class="telegram-btn" target="_blank">
+                    <i class="fab fa-telegram"></i> Join Telegram
+                </a>
+            </div>
+            
+            <h1 class="page-title">Latest A2Z Tg Hub Files</h1>
+            
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search for files...">
+                    <button id="searchButton"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+            
+            <div class="filter-section">
+                <h3 class="filter-title"> Filters</h3>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="animal">Animal</button>
+                    <button class="filter-btn" data-filter="english">English</button>
+                    <button class="filter-btn" data-filter="japanese">Japanese</button>
+                    <button class="filter-btn" data-filter="multi">Multi Audio</button>
+                    <button class="filter-btn" data-quality="480p">480p</button>
+                    <button class="filter-btn" data-quality="720p">720p</button>
+                    <button class="filter-btn" data-quality="1080p">1080p</button>
+                </div>
+            </div>
+            
+            <div class="posts-grid" id="postsGrid"></div>
+            
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#">DINCA</a>
+                <a href="#">TOONWORLD-SALE</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">DMCA</a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 A2Z Tg Hub Files . All rights reserved.
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // === SCRIPT IS UNCHANGED, IT WILL WORK PERFECTLY WITH NEW CSS ===
+        const animeData = [
+            { id: 1, title: "doggy style sex", details: "480p,", date: "October 28, 2025", source: "tghubfile.pages.dev", thumbnail: "https://i.postimg.cc/3JmhfGcN/IMG-20251027-220008-723.jpg", category: "animal", language: "animal", quality: "480p", downloadUrl: "https://gplinks.co/fFMrSLAJ" },
+            { id: 2, title: "Dog Lick Video", details: "480p", date: "October 28, 2025", source: "tghubfile.pages.dev", thumbnail: "https://i.postimg.cc/nrs7CRVq/IMG-20251027-123541-373.jpg", category: "animal", language: "animal", quality: "480p", downloadUrl: "https://gplinks.co/tTgU9ns" },
+            { id: 3, title: "Naruto: Shippuden Season 14 Episodes BluRay [Hindi-Tamil-Tel-Mal-Ben-Eng-Jap] Multi Audio", details: "DD2.0 480p, 720p & 1080p HD | 10bit HEVC ESub", date: "October 23, 2025", source: "Tom World", thumbnail: "https://raw.githubusercontent.com/AnimeThumbnails/naruto/main/thumbnail.jpg", category: "action", language: "multi", quality: "1080p", downloadUrl: "#" },
+            { id: 4, title: "Hunter × Hunter (2011) Season 5 BluRay [Hindi-Eng-Jap] Multi Audio", details: "DD2.0 480p, 720p & 1080p HD | 10bit HEVC ESub (Muse Dub)", date: "October 23, 2025", source: "Tom World", thumbnail: "https://raw.githubusercontent.com/AnimeThumbnails/hunterxhunter/main/thumbnail.jpg", category: "adventure", language: "multi", quality: "1080p", downloadUrl: "#" },
+            { id: 5, title: "May I Ask for One Final Thing? Season 1 Multi Audio [Hindi-English-Japanese]", details: "480p, 720p & 1080p HD WEB-DL | 10bit HEVC ESub", date: "October 24, 2025", source: "Tom World", thumbnail: "https://raw.githubusercontent.com/AnimeThumbnails/one-final-thing/main/thumbnail.jpg", category: "comedy", language: "multi", quality: "1080p", downloadUrl: "#" },
+            { id: 6, title: "One Piece: Wano Country Arc Complete [English-Japanese]", details: "720p & 1080p HD | 10bit HEVC ESub", date: "October 25, 2025", source: "Anime World", thumbnail: "https://raw.githubusercontent.com/AnimeThumbnails/onepiece/main/thumbnail.jpg", category: "adventure", language: "english", quality: "720p", downloadUrl: "#" },
+            { id: 7, title: "Attack on Titan Final Season Part 3 [Hindi-Japanese] Dual Audio", details: "1080p HD | 10bit HEVC ESub", date: "October 26, 2025", source: "Anime Hub", thumbnail: "https://raw.githubusercontent.com/AnimeThumbnails/attackontitan/main/thumbnail.jpg", category: "action", language: "hindi", quality: "1080p", downloadUrl: "#" },
+            { id: 8, title: "Demon Slayer: Entertainment District Arc [English-Japanese]", details: "720p & 1080p HD | 10bit HEVC ESub", date: "October 27, 2025", source: "Anime World", thumbnail: "https://raw.githubusercontent.com/AnimeThumbnails/demonslayer/main/thumbnail.jpg", category: "action", language: "english", quality: "1080p", downloadUrl: "#" },
+            { id: 9, title: "Jujutsu Kaisen Season 2 [Hindi-Tamil-Telugu-Eng-Jap] Multi Audio", details: "480p, 720p & 1080p HD WEB-DL | 10bit HEVC ESub", date: "October 28, 2025", source: "Tom World", thumbnail: "https://raw.githubusercontent.com/AnimeThumbnails/jujutsukaisen/main/thumbnail.jpg", category: "action", language: "multi", quality: "1080p", downloadUrl: "#" },
+            { id: 10, title: "Bleach: Thousand-Year Blood War [Japanese]", details: "1080p HD | 10bit HEVC ESub", date: "October 29, 2025", source: "Anime Hub", thumbnail: "https://via.placeholder.com/300x180/1a1a2e/ffffff?text=Bleach", category: "action", language: "japanese", quality: "1080p", downloadUrl: "#" },
+            { id: 11, title: "Spy x Family Season 2 [Multi Audio]", details: "720p & 1080p HD | 10bit HEVC ESub", date: "October 30, 2025", source: "Tom World", thumbnail: "https://via.placeholder.com/300x180/1a1a2e/ffffff?text=Spy+x+Family", category: "comedy", language: "multi", quality: "720p", downloadUrl: "#" },
+            { id: 12, title: "Vinland Saga Season 2 [English-Japanese]", details: "1080p HD | 10bit HEVC ESub", date: "November 01, 2025", source: "Anime World", thumbnail: "https://via.placeholder.com/300x180/1a1a2e/ffffff?text=Vinland+Saga", category: "drama", language: "english", quality: "1080p", downloadUrl: "#" }
+        ];
+
+        let currentPage = 1;
+        const postsPerPage = 6;
+        let currentPosts = [...animeData]; 
+
+        function createPostCard(anime) {
+            const card = document.createElement('div');
+            card.className = 'post-card';
+            const thumbnailFallback = `https://via.placeholder.com/300x180/1a1a2e/ffffff?text=${encodeURIComponent(anime.title.substring(0, 20))}`;
+            card.innerHTML = `
+                <div class="post-thumbnail">
+                    <img src="${anime.thumbnail}" alt="${anime.title}" onerror="this.src='${thumbnailFallback}'">
+                    <span class="quality-badge">${anime.quality}</span>
+                </div>
+                <div class="post-content">
+                    <h2 class="post-title">${anime.title}</h2>
+                    <div class="post-details">${anime.details}</div>
+                    <div class="post-meta">
+                        <span>${anime.date}</span>
+                        <span>${anime.source}</span>
+                    </div>
+                    <a href="${anime.downloadUrl}" class="download-btn" target="_blank">Download Now</a>
+                </div>`;
+            return card;
+        }
+
+        function renderPage(page = 1) {
+            currentPage = page;
+            const postsGrid = document.getElementById('postsGrid');
+            postsGrid.innerHTML = '';
+            
+            if (currentPosts.length === 0) {
+                postsGrid.innerHTML = '<div class="no-results">No posts found matching your criteria.</div>';
+                document.getElementById('pagination').innerHTML = '';
+                return;
+            }
+            
+            const startIndex = (currentPage - 1) * postsPerPage;
+            const endIndex = startIndex + postsPerPage;
+            const postsToShow = currentPosts.slice(startIndex, endIndex);
+            
+            postsToShow.forEach(anime => {
+                postsGrid.appendChild(createPostCard(anime));
+            });
+            
+            generatePagination();
+        }
+
+        function generatePagination() {
+            const paginationContainer = document.getElementById('pagination');
+            paginationContainer.innerHTML = '';
+            const totalPages = Math.ceil(currentPosts.length / postsPerPage);
+
+            if (totalPages <= 1) return;
+            
+            const prevButton = document.createElement('button');
+            prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+            prevButton.disabled = currentPage === 1;
+            prevButton.addEventListener('click', () => { if (currentPage > 1) renderPage(currentPage - 1); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+            paginationContainer.appendChild(prevButton);
+            
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.textContent = i;
+                pageButton.classList.toggle('active', i === currentPage);
+                pageButton.addEventListener('click', () => { renderPage(i); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+                paginationContainer.appendChild(pageButton);
+            }
+            
+            const nextButton = document.createElement('button');
+            nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+            nextButton.disabled = currentPage === totalPages;
+            nextButton.addEventListener('click', () => { if (currentPage < totalPages) renderPage(currentPage + 1); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+            paginationContainer.appendChild(nextButton);
+        }
+
+        function setupThemeToggle() {
+            const themeToggle = document.getElementById('themeToggle');
+            const icon = themeToggle.querySelector('i');
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+                icon.className = 'fas fa-sun';
+            }
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('light-mode');
+                if (document.body.classList.contains('light-mode')) {
+                    localStorage.setItem('theme', 'light');
+                    icon.className = 'fas fa-sun';
+                } else {
+                    localStorage.setItem('theme', 'dark');
+                    icon.className = 'fas fa-moon';
+                }
+            });
+        }
+
+        function setupMobileMenu() {
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileNav = document.getElementById('mobileNav');
+            menuToggle.addEventListener('click', () => {
+                mobileNav.classList.toggle('active');
+                menuToggle.querySelector('i').className = mobileNav.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
+            });
+            document.querySelectorAll('.mobile-dropdown-toggle').forEach(toggle => {
+                toggle.addEventListener('click', e => {
+                    e.preventDefault();
+                    toggle.nextElementSibling.classList.toggle('active');
+                    toggle.querySelector('.fa-caret-down').classList.toggle('fa-rotate-180');
+                });
+            });
+        }
+        
+        document.getElementById('adClose').addEventListener('click', () => {
+            document.getElementById('adContainer').style.display = 'none';
+            localStorage.setItem('hideAd', 'true');
+        });
+        if (localStorage.getItem('hideAd') === 'true') {
+            document.getElementById('adContainer').style.display = 'none';
+        }
+        
+        function applyFiltersAndSearch() {
+            const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+            const activeFilterBtn = document.querySelector('.filter-btn.active');
+            let filteredPosts = [...animeData];
+
+            if (searchTerm) {
+                filteredPosts = filteredPosts.filter(post => 
+                    post.title.toLowerCase().includes(searchTerm) ||
+                    post.details.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            if (activeFilterBtn) {
+                const languageFilter = activeFilterBtn.dataset.filter;
+                const qualityFilter = activeFilterBtn.dataset.quality;
+                if (languageFilter && languageFilter !== 'all') {
+                    filteredPosts = filteredPosts.filter(post => post.language === languageFilter);
+                }
+                if (qualityFilter && qualityFilter !== 'all') {
+                    filteredPosts = filteredPosts.filter(post => post.quality === qualityFilter);
+                }
+            }
+            currentPosts = filteredPosts;
+            renderPage(1);
+        }
+
+        function setupFiltersAndSearch() {
+            document.getElementById('searchButton').addEventListener('click', applyFiltersAndSearch);
+            document.getElementById('searchInput').addEventListener('keypress', e => { if (e.key === 'Enter') applyFiltersAndSearch(); });
+
+            document.querySelectorAll('.filter-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    applyFiltersAndSearch();
+                });
+            });
+            
+            document.querySelectorAll('[data-category], [data-quality]').forEach(link => {
+                link.addEventListener('click', e => {
+                    e.preventDefault();
+                    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                    document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
+                    const category = link.dataset.category, quality = link.dataset.quality;
+                    if (category) currentPosts = (category === 'all') ? [...animeData] : animeData.filter(p => p.category === category);
+                    else if (quality) currentPosts = (quality === 'all') ? [...animeData] : animeData.filter(p => p.quality === quality);
+                    renderPage(1);
+                    document.getElementById('mobileNav').classList.remove('active');
+                    document.getElementById('menuToggle').querySelector('i').className = 'fas fa-bars';
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setupThemeToggle();
+            setupMobileMenu();
+            setupFiltersAndSearch();
+            renderPage(1); 
+        });
+    </script>
+</body>
+</html>
